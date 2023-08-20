@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rust/features/home/home.dart';
 import 'package:flutter_rust/features/settings/settings.dart';
+import 'package:flutter_rust/layouts/main_layout.dart';
 import 'package:flutter_rust/router/router_config.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,7 +15,7 @@ final goRouterProvider = Provider((ref) {
     routes: <RouteBase>[
       ShellRoute(
         navigatorKey: shellNavigatorKey,
-        builder: (BuildContext context, GoRouterState state, child) => child,
+        builder: (BuildContext context, GoRouterState state, child) => MainLayout(child: child),
         routes: [
           GoRoute(
             name: Routes.home.name,
