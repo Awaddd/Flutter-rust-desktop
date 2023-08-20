@@ -11,7 +11,7 @@ class Settings extends StatelessWidget {
           children: [
             Text(
               "Settings",
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.w800),
             ),
           ],
         ),
