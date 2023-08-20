@@ -1,0 +1,20 @@
+{
+  "files.exclude": {
+    "*/**/**.lock": true,
+    "*/**/**.md": true,
+    "*/**/**.iml": true,
+    "*/**/analysis_options.yaml": true,
+    "*/**/**.metadata": true,
+    "*/**/**.gitignore": true,
+    "*/**/web": true,
+    "*/**/windows": true,
+    "*/**/macos": true,
+    "*/**/linux": true,
+    "*/**/ios": true,
+    "*/**/android": true,
+    "*/**/.idea": true,
+    "*/**/.dart_tool": true,
+    "*/**/.flutter-plugins*": true,
+    "*/**/target": true
+  }
+}
