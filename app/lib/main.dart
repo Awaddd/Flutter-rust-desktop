@@ -13,6 +13,7 @@ void main() async {
     center: true,
     backgroundColor: Colors.transparent,
     titleBarStyle: TitleBarStyle.normal,
+    title: "Bookio",
     minimumSize: Size(980, 620),
   );
 
