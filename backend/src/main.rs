@@ -1,9 +1,4 @@
 mod database;
-
-mod data {
-  pub mod books;
-}
-
 mod services {
   pub mod books;
 }
