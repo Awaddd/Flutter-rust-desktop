@@ -26,6 +26,7 @@ class NavigationDrawerSection extends ConsumerWidget {
       },
       selectedIndex: navDrawerIndex,
       children: <Widget>[
+        //
         Padding(
           padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
           child: Text(
@@ -33,6 +34,7 @@ class NavigationDrawerSection extends ConsumerWidget {
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
+
         ...mainDestinations.map((destination) {
           return NavigationDrawerDestination(
             label: Text(destination.label),
@@ -40,7 +42,9 @@ class NavigationDrawerSection extends ConsumerWidget {
             selectedIcon: destination.selectedIcon,
           );
         }),
+
         const Divider(indent: 28, endIndent: 28),
+
         Padding(
           padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
           child: Text(
@@ -48,6 +52,7 @@ class NavigationDrawerSection extends ConsumerWidget {
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
+
         ...labelDestinations.map((destination) {
           return NavigationDrawerDestination(
             label: Text(destination.label),

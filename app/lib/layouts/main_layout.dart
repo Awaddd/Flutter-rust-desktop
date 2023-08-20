@@ -22,7 +22,7 @@ class MainLayout extends StatelessWidget {
 
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: md, horizontal: rl),
+                padding: const EdgeInsets.symmetric(vertical: rl, horizontal: xl),
                 child: child,
               ),
             ),
