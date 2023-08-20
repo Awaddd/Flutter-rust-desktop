@@ -15,6 +15,7 @@
     "*/**/.idea": true,
     "*/**/.dart_tool": true,
     "*/**/.flutter-plugins*": true,
+    "*/**/build": true,
     "*/**/target": true
   }
 }
