@@ -16,6 +16,9 @@ class Book {
       isbn: book['isbn'] as String,
     );
   }
+
+  @override
+  String toString() => "Book: $title, $author, $isbn";
 }
 
 class BookPartial {
@@ -26,4 +29,11 @@ class BookPartial {
 
   final String title;
   final String author;
+
+  Map<String, dynamic> toJson() {
+    return {
+      "title": title,
+      "author": author,
+    };
+  }
 }

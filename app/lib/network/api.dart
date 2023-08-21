@@ -1,4 +1,6 @@
 // ignore_for_file: avoid_classes_with_only_static_members
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 typedef Paths = ({
@@ -20,6 +22,14 @@ class Client<T> {
     final url = Uri.parse("$api/${request.path}");
     return http.get(url);
   }
+
+  static Future<http.Response> post(Request request, Map<String, dynamic> body) async {
+    return http.post(
+      Uri.parse("$api/${request.path}"),
+      headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
+      body: jsonEncode(body),
+    );
+  }
 }
 
 class Request {
@@ -33,4 +43,24 @@ class Request {
 
   @override
   String toString() => "Path=$path; Method=${_method.name}";
+}
+
+class ClientException implements Exception {
+  ClientException({
+    required this.statusCode,
+    required this.response,
+  });
+
+  final int statusCode;
+  final http.Response response;
+
+  @override
+  String toString() {
+    final errorData = <String, dynamic>{
+      "statusCode": statusCode,
+      "response": response,
+    };
+
+    return "ClientException: $errorData";
+  }
 }
