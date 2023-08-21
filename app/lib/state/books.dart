@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rust/models/book.dart';
 import 'package:flutter_rust/network/api.dart';
 import 'package:flutter_rust/utils/types.dart';
+import 'package:flutter_rust/utils/utils.dart';
 
 typedef BookProvider = AsyncValue<List<Book>>;
 
@@ -39,9 +40,19 @@ class BookNotifier extends StateNotifier<BookProvider> {
     state = AsyncValue.data(arr);
   }
 
-  void removeBook(Book payload) {
+  Future<void> removeBook(String payload) async {
+    final response = await Client.delete(Client.paths.deleteBook, payload);
+
+    final body = jsonDecode(response.body);
+
+    String? isbn;
+
+    if (body case {'deleted': final String deletedIsbn}) isbn = deletedIsbn;
+
+    if (isEmpty(isbn)) throw GenericException("Could not delete book with isbn: ($isbn)");
+
     final arr = [...?state.value];
-    final index = arr.indexWhere((element) => element.isbn == payload.isbn);
+    final index = arr.indexWhere((element) => element.isbn == isbn);
     arr.removeAt(index);
     state = AsyncValue.data(arr);
   }

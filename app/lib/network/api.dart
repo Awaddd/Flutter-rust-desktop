@@ -6,9 +6,10 @@ import 'package:http/http.dart' as http;
 typedef Paths = ({
   Request getBooks,
   Request postBook,
+  Request deleteBook,
 });
 
-enum Method { get, post }
+enum Method { get, post, delete }
 
 class Client<T> {
   static String api = "http://localhost:8080";
@@ -16,6 +17,7 @@ class Client<T> {
   static Paths paths = (
     getBooks: Request(path: "books", method: Method.get),
     postBook: Request(path: "book", method: Method.post),
+    deleteBook: Request(path: "book/delete", method: Method.delete),
   );
 
   static Future<http.Response> get(Request request) async {
@@ -37,6 +39,22 @@ class Client<T> {
       Uri.parse("$api/${request.path}"),
       headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
       body: jsonEncode(body),
+    );
+
+    if (response.statusCode != 200) {
+      throw ClientException(
+        statusCode: response.statusCode,
+        response: response,
+      );
+    }
+
+    return response;
+  }
+
+  static Future<http.Response> delete(Request request, String id) async {
+    final response = await http.delete(
+      Uri.parse("$api/${request.path}/$id"),
+      headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
     );
 
     if (response.statusCode != 200) {
@@ -81,4 +99,13 @@ class ClientException implements Exception {
 
     return "ClientException: $errorData";
   }
+}
+
+class GenericException implements Exception {
+  GenericException(this.error);
+
+  String error;
+
+  @override
+  String toString() => error;
 }

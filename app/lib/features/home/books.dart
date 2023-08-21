@@ -39,7 +39,7 @@ class BookList extends ConsumerWidget {
     final subtitleColor = Theme.of(context).hintColor;
     final text = Theme.of(context).textTheme;
 
-    void delete(Book book) => ref.read(booksProvider.notifier).removeBook(book);
+    void delete(Book book) => ref.read(booksProvider.notifier).removeBook(book.isbn);
 
     return Expanded(
       child: ListView.separated(
