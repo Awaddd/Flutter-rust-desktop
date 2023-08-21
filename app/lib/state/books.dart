@@ -5,7 +5,6 @@ import 'package:flutter_rust/models/book.dart';
 import 'package:flutter_rust/network/api.dart';
 
 typedef BookProvider = AsyncValue<List<Book>>;
-typedef T = Map<String, dynamic>?;
 
 final bookProvider = StateNotifierProvider<BookNotifier, BookProvider>((ref) => BookNotifier(ref));
 
@@ -22,12 +21,12 @@ class BookNotifier extends StateNotifier<BookProvider> {
 
       final List<Book> books = [];
 
-      final body = jsonDecode(response.body) as T;
-      final bookList = (body?['data'] as T)?['books'] as List<dynamic>;
+      final body = jsonDecode(response.body) as Map<String, dynamic>;
 
-      for (final (book as Map<String, dynamic>) in bookList) {
-        final b = Book.fromNetwork(book);
-        books.add(b);
+      if (body case {'data': {'books': final List<dynamic> bookList}}) {
+        for (final (book as Map<String, dynamic>) in bookList) {
+          books.add(Book.fromNetwork(book));
+        }
       }
 
       return books;
