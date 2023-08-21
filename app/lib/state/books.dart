@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rust/models/book.dart';
 import 'package:flutter_rust/network/api.dart';
-import 'package:http/http.dart' as client;
 
 typedef BookProvider = AsyncValue<List<Book>>;
 typedef T = Map<String, dynamic>?;
@@ -18,10 +17,8 @@ class BookNotifier extends StateNotifier<BookProvider> {
   final Ref ref;
 
   Future<void> _fetch() async {
-    final url = Uri.parse("$api/books");
-
     state = await AsyncValue.guard(() async {
-      final response = await client.get(url);
+      final response = await Client.get(Client.paths.getBooks);
 
       final List<Book> books = [];
 
