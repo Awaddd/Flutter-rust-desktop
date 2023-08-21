@@ -25,11 +25,11 @@ impl BookService {
     }
   }
 
-  pub async fn delete_book(book: Book) -> Result<String, String> {
+  pub async fn delete_book(isbn: &String) -> Result<String, String> {
     let pool = start_db().await.map_err(|_| String::from("Failed to connect to database"))?;
 
-    match Book::delete(&book, &pool).await {
-      Ok(_) => Ok(book.isbn),
+    match Book::delete(&isbn, &pool).await {
+      Ok(_) => Ok(isbn.to_string()),
       Err(_) => Err(String::from("Could not delete book"))
     }
   }

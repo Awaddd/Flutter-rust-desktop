@@ -10,7 +10,7 @@ pub fn book_routes() -> Router {
     .route("/books", get(books))
     .route("/book/:title", get(book))
     .route("/book", post(add_book))
-    .route("/book", delete(delete_book))
+    .route("/book/delete/:isbn", delete(delete_book))
 }
 
 async fn books() -> Result<Json<Value>> {
@@ -51,10 +51,10 @@ async fn add_book(payload: Json<BookPartial>) -> Result<Json<Value>> {
   }
 }
 
-async fn delete_book(payload: Json<Book>) -> Result<Json<Value>> {
-  if let Ok(book) = BookService::delete_book(Book::from_axum(payload)).await {
+async fn delete_book(Path(isbn): Path<String>) -> Result<Json<Value>> {
+  if let Ok(deleted_isbn) = BookService::delete_book(&isbn).await {
     let body = Json(json!({
-      "deleted": book
+      "deleted": deleted_isbn
     }));
 
     Ok(body)

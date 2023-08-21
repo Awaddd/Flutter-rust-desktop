@@ -95,10 +95,10 @@ impl Book {
     Ok(())
   }
 
-  pub async fn delete(book: &Book, pool: &sqlx::PgPool) -> Result<(), Box<dyn Error>> {
+  pub async fn delete(isbn: &String, pool: &sqlx::PgPool) -> Result<(), Box<dyn Error>> {
     let query = "DELETE FROM book WHERE isbn = $1";
 
-    sqlx::query(query).bind(&book.isbn).execute(pool).await?;
+    sqlx::query(query).bind(&isbn).execute(pool).await?;
 
     Ok(())
   }
