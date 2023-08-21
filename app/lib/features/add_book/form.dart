@@ -5,6 +5,7 @@ import 'package:flutter_rust/components/atoms/full_width_input.dart';
 import 'package:flutter_rust/features/add_book/add_book_state.dart';
 import 'package:flutter_rust/models/book.dart';
 import 'package:flutter_rust/utils/constants.dart';
+import 'package:flutter_rust/utils/extensions.dart';
 import 'package:flutter_rust/utils/utils.dart';
 
 class AddBookForm extends ConsumerWidget {
@@ -27,7 +28,10 @@ class AddBookForm extends ConsumerWidget {
       if (isEmpty(book)) return addBookState.setBookError("Book cannot be empty");
       if (isEmpty(author)) return addBookState.setAuthorError("Author cannot be empty");
 
-      addBookState.saveBook(BookPartial(title: book, author: author));
+      final result = await addBookState.saveBook(BookPartial(title: book, author: author));
+      if (!context.mounted) return;
+      if (isEmpty(result.error)) return context.showNotification(message: "Book saved");
+      context.showErrorNotification(message: result.error!);
     }
 
     return Expanded(

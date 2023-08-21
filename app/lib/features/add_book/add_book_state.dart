@@ -28,18 +28,27 @@ class AddBookNotifier extends StateNotifier<AddBookState> {
     state = AddBookState(authorError: err, bookError: state.bookError);
   }
 
-  Future<void> saveBook(BookPartial payload) async {
-    final response = await Client.post(Client.paths.postBook, payload.toJson());
+  Future<GuardResponse> saveBook(BookPartial payload) async {
+    return Client.guard(
+      () async {
+        final response = await Client.post(Client.paths.postBook, payload.toJson());
 
-    Item book = {};
-    final body = jsonDecode(response.body);
+        Item book = {};
+        final body = jsonDecode(response.body);
 
-    if (body case {'data': {'book': final Item item}}) book = item;
+        if (body case {'data': {'book': final Item item}}) {
+          book = item;
+        } else {
+          throw GenericException("Could not add book with isbn: ($payload)");
+        }
 
-    final data = Book.fromNetwork(book);
+        final data = Book.fromNetwork(book);
 
-    ref.read(bookProvider.notifier).state = data;
-    ref.read(booksProvider.notifier).appendBook(data);
+        ref.read(bookProvider.notifier).state = data;
+        ref.read(booksProvider.notifier).appendBook(data);
+      },
+      clientExceptionMessage: "Could not add book",
+    );
   }
 }
 
