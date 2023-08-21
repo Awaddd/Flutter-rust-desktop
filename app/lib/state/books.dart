@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,20 +41,25 @@ class BookNotifier extends StateNotifier<BookProvider> {
     state = AsyncValue.data(arr);
   }
 
-  Future<void> removeBook(String payload) async {
-    final response = await Client.delete(Client.paths.deleteBook, payload);
+  Future<GuardResponse> removeBook(String payload) async {
+    return Client.guard(
+      () async {
+        final response = await Client.delete(Client.paths.deleteBook, payload);
 
-    final body = jsonDecode(response.body);
+        final body = jsonDecode(response.body);
 
-    String? isbn;
+        String? isbn;
 
-    if (body case {'deleted': final String deletedIsbn}) isbn = deletedIsbn;
+        if (body case {'deleted': final String deletedIsbn}) isbn = deletedIsbn;
 
-    if (isEmpty(isbn)) throw GenericException("Could not delete book with isbn: ($isbn)");
+        if (isEmpty(isbn)) throw GenericException("Could not delete book with isbn: ($isbn)");
 
-    final arr = [...?state.value];
-    final index = arr.indexWhere((element) => element.isbn == isbn);
-    arr.removeAt(index);
-    state = AsyncValue.data(arr);
+        final arr = [...?state.value];
+        final index = arr.indexWhere((element) => element.isbn == isbn);
+        arr.removeAt(index);
+        state = AsyncValue.data(arr);
+      },
+      clientExceptionMessage: "Could not delete book",
+    );
   }
 }
