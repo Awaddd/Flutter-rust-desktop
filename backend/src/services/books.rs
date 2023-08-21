@@ -9,15 +9,7 @@ impl BookService {
     let books = Book::read_all(&pool).await;
   
     match books {
-      Ok(arr) => {
-        let mut b: Vec<Book> = vec![];
-  
-        for book in arr {
-          b.push(book);
-        }
-  
-        Ok(b)
-      },
+      Ok(arr) => Ok(arr),
       Err(_) => Err(String::from("Failed to fetch books"))
     }
   }
