@@ -10,6 +10,8 @@ import 'package:flutter_rust/utils/types.dart';
 final bookControllerProvider = Provider((ref) => TextEditingController());
 final authorControllerProvider = Provider((ref) => TextEditingController());
 
+final bookProvider = StateProvider<Book?>((ref) => null);
+
 final addBookProvider = StateNotifierProvider<AddBookNotifier, AddBookState>((ref) => AddBookNotifier(ref));
 
 class AddBookNotifier extends StateNotifier<AddBookState> {
@@ -25,7 +27,7 @@ class AddBookNotifier extends StateNotifier<AddBookState> {
     state = AddBookState(authorError: err, bookError: state.bookError);
   }
 
-  Future<Book> saveBook(BookPartial payload) async {
+  Future<void> saveBook(BookPartial payload) async {
     final response = await Client.post(Client.paths.postBook, payload.toJson());
 
     Item book = {};
@@ -33,7 +35,7 @@ class AddBookNotifier extends StateNotifier<AddBookState> {
 
     if (body case {'data': {'book': final Item item}}) book = item;
 
-    return Book.fromNetwork(book);
+    ref.read(bookProvider.notifier).state = Book.fromNetwork(book);
   }
 }
 

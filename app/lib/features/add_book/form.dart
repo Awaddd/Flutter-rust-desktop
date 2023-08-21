@@ -16,6 +16,8 @@ class AddBookForm extends ConsumerWidget {
     final bookController = ref.watch(bookControllerProvider);
     final authorController = ref.watch(authorControllerProvider);
 
+    final book = ref.watch(bookProvider);
+
     Future<void> addBook() async {
       final book = bookController.text;
       final author = authorController.text;
@@ -56,6 +58,8 @@ class AddBookForm extends ConsumerWidget {
             },
           ),
 
+          if (book != null) BookPreview(book: book),
+
           const Spacer(),
 
           FullWidthButton(
@@ -64,6 +68,46 @@ class AddBookForm extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class BookPreview extends StatelessWidget {
+  const BookPreview({
+    super.key,
+    required this.book,
+  });
+
+  final Book book;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final subtitleColor = Theme.of(context).hintColor;
+    final text = Theme.of(context).textTheme;
+    final color = Theme.of(context).hintColor;
+
+    return Column(
+      children: [
+        //
+        const SizedBox(height: xl),
+
+        Row(
+          children: [
+            Text(
+              "Book Preview",
+              style: text.labelLarge?.copyWith(fontWeight: FontWeight.w500, color: color),
+            ),
+          ],
+        ),
+
+        ListTile(
+          contentPadding: const EdgeInsets.only(right: xl),
+          title: Text(book.title, style: text.bodyMedium?.copyWith(color: colors.primary, fontWeight: FontWeight.w600)),
+          subtitle: Text(book.author, style: text.bodySmall?.copyWith(color: subtitleColor)),
+          trailing: Text(book.isbn, style: TextStyle(color: colors.secondary)),
+        ),
+      ],
     );
   }
 }
