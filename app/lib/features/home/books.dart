@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rust/models/book.dart';
 import 'package:flutter_rust/state/books.dart';
 import 'package:flutter_rust/utils/constants.dart';
+import 'package:flutter_rust/utils/extensions.dart';
+import 'package:flutter_rust/utils/utils.dart';
 
 class Books extends ConsumerWidget {
   const Books({super.key});
@@ -39,7 +41,12 @@ class BookList extends ConsumerWidget {
     final subtitleColor = Theme.of(context).hintColor;
     final text = Theme.of(context).textTheme;
 
-    void delete(Book book) => ref.read(booksProvider.notifier).removeBook(book.isbn);
+    Future<void> delete(Book book) async {
+      final result = await ref.read(booksProvider.notifier).removeBook(book.isbn);
+      if (!context.mounted) return;
+      if (isEmpty(result.error)) return context.showNotification(message: "Book deleted");
+      context.showErrorNotification(message: result.error!);
+    }
 
     return Expanded(
       child: ListView.separated(

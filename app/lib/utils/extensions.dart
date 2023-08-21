@@ -1,22 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rust/components/snack_bar_icon.dart';
+import 'package:flutter_rust/utils/constants.dart';
 
 extension ShowSnackBar on BuildContext {
-  static TextStyle errorStyle = const TextStyle(color: Color(0xFFFF461C));
-
   void showNotification({
     required String message,
     bool isError = false,
   }) {
+    final colors = Theme.of(this).colorScheme;
+
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
+        backgroundColor: colors.surfaceVariant,
         behavior: SnackBarBehavior.floating,
-        content: Text(
-          message,
-          style: isError ? errorStyle : null,
+        content: Row(
+          children: [
+            //
+            SnackBarIcon(isError: isError),
+
+            const SizedBox(width: sm),
+
+            Text(
+              message,
+              style: TextStyle(color: colors.onBackground),
+            ),
+          ],
         ),
         action: SnackBarAction(
           label: 'Close',
           onPressed: () {},
+          textColor: colors.onSurfaceVariant,
         ),
       ),
     );
