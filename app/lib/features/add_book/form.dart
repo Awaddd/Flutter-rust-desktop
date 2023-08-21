@@ -28,40 +28,42 @@ class AddBookForm extends ConsumerWidget {
       addBookState.saveBook(BookPartial(title: book, author: author));
     }
 
-    return Column(
-      children: [
-        //
-        FullWidthInput(
-          text: 'Book',
-          dense: true,
-          controller: bookController,
-          error: formState.bookError,
-          onChanged: (val) {
-            if (isEmpty(formState.bookError)) return;
-            ref.read(addBookProvider.notifier).setBookError(null);
-          },
-        ),
+    return Expanded(
+      child: Column(
+        children: [
+          //
+          FullWidthInput(
+            text: 'Book',
+            dense: true,
+            controller: bookController,
+            error: formState.bookError,
+            onChanged: (val) {
+              if (isEmpty(formState.bookError)) return;
+              ref.read(addBookProvider.notifier).setBookError(null);
+            },
+          ),
 
-        const SizedBox(height: md),
+          const SizedBox(height: md),
 
-        FullWidthInput(
-          text: 'Author',
-          dense: true,
-          controller: authorController,
-          error: formState.authorError,
-          onChanged: (val) {
-            if (isEmpty(formState.authorError)) return;
-            ref.read(addBookProvider.notifier).setAuthorError(null);
-          },
-        ),
+          FullWidthInput(
+            text: 'Author',
+            dense: true,
+            controller: authorController,
+            error: formState.authorError,
+            onChanged: (val) {
+              if (isEmpty(formState.authorError)) return;
+              ref.read(addBookProvider.notifier).setAuthorError(null);
+            },
+          ),
 
-        const SizedBox(height: md),
+          const Spacer(),
 
-        FullWidthButton(
-          onPressed: addBook,
-          text: 'Add Book',
-        ),
-      ],
+          FullWidthButton(
+            onPressed: addBook,
+            text: 'Add Book',
+          ),
+        ],
+      ),
     );
   }
 }
