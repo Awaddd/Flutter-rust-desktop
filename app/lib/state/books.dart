@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rust/models/book.dart';
 import 'package:flutter_rust/network/api.dart';
+import 'package:flutter_rust/utils/types.dart';
 
 typedef BookProvider = AsyncValue<List<Book>>;
 
@@ -20,11 +21,10 @@ class BookNotifier extends StateNotifier<BookProvider> {
       final response = await Client.get(Client.paths.getBooks);
 
       final List<Book> books = [];
-
-      final body = jsonDecode(response.body) as Map<String, dynamic>;
+      final body = jsonDecode(response.body);
 
       if (body case {'data': {'books': final List<dynamic> bookList}}) {
-        for (final (book as Map<String, dynamic>) in bookList) {
+        for (final (book as Item) in bookList) {
           books.add(Book.fromNetwork(book));
         }
       }
