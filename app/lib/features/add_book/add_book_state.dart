@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rust/models/book.dart';
 import 'package:flutter_rust/network/api.dart';
+import 'package:flutter_rust/state/books.dart';
 import 'package:flutter_rust/utils/types.dart';
 
 final bookControllerProvider = Provider((ref) => TextEditingController());
@@ -35,7 +36,10 @@ class AddBookNotifier extends StateNotifier<AddBookState> {
 
     if (body case {'data': {'book': final Item item}}) book = item;
 
-    ref.read(bookProvider.notifier).state = Book.fromNetwork(book);
+    final data = Book.fromNetwork(book);
+
+    ref.read(bookProvider.notifier).state = data;
+    ref.read(booksProvider.notifier).appendBook(data);
   }
 }
 

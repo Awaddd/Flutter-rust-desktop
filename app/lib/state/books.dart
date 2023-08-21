@@ -32,4 +32,10 @@ class BookNotifier extends StateNotifier<BookProvider> {
       return books;
     });
   }
+
+  void appendBook(Book payload) {
+    final arr = [...?state.value];
+    arr.add(payload);
+    state = AsyncValue.data(arr);
+  }
 }
