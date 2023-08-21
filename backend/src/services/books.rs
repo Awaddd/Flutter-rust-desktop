@@ -24,4 +24,13 @@ impl BookService {
       Err(_) => Err(String::from("Could not add book"))
     }
   }
+
+  pub async fn delete_book(book: Book) -> Result<String, String> {
+    let pool = start_db().await.map_err(|_| String::from("Failed to connect to database"))?;
+
+    match Book::delete(&book, &pool).await {
+      Ok(_) => Ok(book.isbn),
+      Err(_) => Err(String::from("Could not delete book"))
+    }
+  }
 }

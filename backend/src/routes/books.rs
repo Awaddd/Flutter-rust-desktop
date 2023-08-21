@@ -1,7 +1,7 @@
 use crate::models::book::{Book, BookPartial};
 use crate::{Error, Result};
 use crate::services::books::BookService;
-use axum::routing::post;
+use axum::routing::{post, delete};
 use axum::{Router, response::{Html, IntoResponse}, routing::get, extract::Path, Json};
 use serde_json::{Value, json};
 
@@ -10,6 +10,7 @@ pub fn book_routes() -> Router {
     .route("/books", get(books))
     .route("/book/:title", get(book))
     .route("/book", post(add_book))
+    .route("/book", delete(delete_book))
 }
 
 async fn books() -> Result<Json<Value>> {
@@ -42,6 +43,18 @@ async fn add_book(payload: Json<BookPartial>) -> Result<Json<Value>> {
       "data": {
         "book": book
       }
+    }));
+
+    Ok(body)
+  } else {
+    Err(Error::DefaultError)
+  }
+}
+
+async fn delete_book(payload: Json<Book>) -> Result<Json<Value>> {
+  if let Ok(book) = BookService::delete_book(Book::from_axum(payload)).await {
+    let body = Json(json!({
+      "deleted": book
     }));
 
     Ok(body)

@@ -26,6 +26,14 @@ impl Book {
     }
   }
 
+  pub fn from_axum(book: Json<Book>) -> Book {
+    Book {
+      title: book.title.to_string(),
+      author: book.author.to_string(),
+      isbn: book.isbn.to_string(),
+    }
+  }
+
   // db functions
   pub async fn read(pool: &sqlx::PgPool) -> Result<Book, Box<dyn Error>> {
     let query = sqlx::query("SELECT title, author, isbn FROM book");
@@ -84,6 +92,14 @@ impl Book {
       .execute(pool)
       .await?;
   
+    Ok(())
+  }
+
+  pub async fn delete(book: &Book, pool: &sqlx::PgPool) -> Result<(), Box<dyn Error>> {
+    let query = "DELETE FROM book WHERE isbn = $1";
+
+    sqlx::query(query).bind(&book.isbn).execute(pool).await?;
+
     Ok(())
   }
 }
