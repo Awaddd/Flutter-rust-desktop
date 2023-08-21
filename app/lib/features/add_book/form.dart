@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rust/components/atoms/full_width_button.dart';
 import 'package:flutter_rust/components/atoms/full_width_input.dart';
 import 'package:flutter_rust/features/add_book/add_book_state.dart';
+import 'package:flutter_rust/models/book.dart';
 import 'package:flutter_rust/utils/constants.dart';
 import 'package:flutter_rust/utils/utils.dart';
 
@@ -19,10 +20,12 @@ class AddBookForm extends ConsumerWidget {
       final book = bookController.text;
       final author = authorController.text;
 
-      if (isEmpty(book)) return ref.read(addBookProvider.notifier).setBookError("Book cannot be empty");
-      if (isEmpty(author)) return ref.read(addBookProvider.notifier).setAuthorError("Author cannot be empty");
+      final addBookState = ref.read(addBookProvider.notifier);
 
-      print("Saving... $book $author");
+      if (isEmpty(book)) return addBookState.setBookError("Book cannot be empty");
+      if (isEmpty(author)) return addBookState.setAuthorError("Author cannot be empty");
+
+      addBookState.saveBook(BookPartial(title: book, author: author));
     }
 
     return Column(
