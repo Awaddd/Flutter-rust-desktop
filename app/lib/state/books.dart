@@ -7,7 +7,7 @@ import 'package:flutter_rust/utils/types.dart';
 
 typedef BookProvider = AsyncValue<List<Book>>;
 
-final bookProvider = StateNotifierProvider<BookNotifier, BookProvider>((ref) => BookNotifier(ref));
+final booksProvider = StateNotifierProvider<BookNotifier, BookProvider>((ref) => BookNotifier(ref));
 
 class BookNotifier extends StateNotifier<BookProvider> {
   BookNotifier(this.ref) : super(const AsyncValue.loading()) {

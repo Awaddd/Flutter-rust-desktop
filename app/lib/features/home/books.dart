@@ -9,7 +9,7 @@ class Books extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final books = ref.watch(bookProvider);
+    final books = ref.watch(booksProvider);
 
     final text = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
