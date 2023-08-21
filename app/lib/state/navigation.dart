@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rust/router/router_config.dart';
+import 'package:flutter_rust/utils/extensions.dart';
 
 final navDrawerIndexProvider = StateProvider((ref) => 0);
 final destinationsProvider = Provider((ref) => destinations);
@@ -26,8 +27,8 @@ class Destination extends ExampleDestination {
 }
 
 List<ExampleDestination> destinations = [
-  Destination('Home', const Icon(Icons.cottage_outlined), const Icon(Icons.cottage), path: Routes.home.path),
-  Destination('Settings', const Icon(Icons.settings_outlined), const Icon(Icons.settings), path: Routes.settings.path),
+  Destination(Routes.home.name.capitalize(), const Icon(Icons.cottage_outlined), const Icon(Icons.cottage), path: Routes.home.path),
+  Destination(Routes.settings.name.capitalize(), const Icon(Icons.settings_outlined), const Icon(Icons.settings), path: Routes.settings.path),
   const ExampleDestination(
     'Favorites',
     Icon(Icons.favorite_outline),

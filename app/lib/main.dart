@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_rust/state/router.dart';
+import 'package:flutter_rust/router/router.dart';
 import 'package:flutter_rust/utils/color_schemes.g.dart';
 import 'package:window_manager/window_manager.dart';
 

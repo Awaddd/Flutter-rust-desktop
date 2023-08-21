@@ -25,8 +25,6 @@ use crate::routes::{books::book_routes, index::base_routes};
 
 #[tokio::main]
 async fn main() {
-    println!("Hello, world!");
-
     let app = Router::new()
       .merge(base_routes())
       .merge(book_routes());
