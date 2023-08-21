@@ -12,8 +12,14 @@ mod models {
   pub mod book;
 }
 
+mod utils {
+  pub mod error;
+}
+
 use std::net::SocketAddr;
 use axum::Router;
+
+pub use self::utils::error::{Error, Result};
 
 use crate::routes::{books::book_routes, index::base_routes};
 

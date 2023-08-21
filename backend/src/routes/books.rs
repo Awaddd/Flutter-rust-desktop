@@ -1,6 +1,7 @@
+use crate::{Error, Result};
 use crate::services::books::BookService;
-use axum::{Router, response::{Html, IntoResponse}, routing::get, extract::Path};
-
+use axum::{Router, response::{Html, IntoResponse}, routing::get, extract::Path, Json};
+use serde_json::{Value, json};
 
 pub fn book_routes() -> Router {
   Router::new()
@@ -8,10 +9,22 @@ pub fn book_routes() -> Router {
     .route("/book/:title", get(book))
 }
 
-async fn books()  -> impl IntoResponse {
+async fn books() -> Result<Json<Value>> {
   // currently does not return anything
   let books = BookService::get_books().await;
-  print!("books {:?}", books);
+
+  if let Ok(b) = books {
+    let response = Json(json!({
+      "data": {
+        "books": b
+      }
+    }));
+    
+    Ok(response)
+  } else {
+    Err(Error::DefaultError)
+  }
+
 }
 
 async fn book(Path(title): Path<String>) -> impl IntoResponse {
