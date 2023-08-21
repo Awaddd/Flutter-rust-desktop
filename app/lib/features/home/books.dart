@@ -25,7 +25,7 @@ class Books extends ConsumerWidget {
   }
 }
 
-class BookList extends StatelessWidget {
+class BookList extends ConsumerWidget {
   const BookList({
     super.key,
     required this.books,
@@ -34,10 +34,12 @@ class BookList extends StatelessWidget {
   final List<Book> books;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
     final subtitleColor = Theme.of(context).hintColor;
     final text = Theme.of(context).textTheme;
+
+    void delete(Book book) => ref.read(booksProvider.notifier).removeBook(book);
 
     return Expanded(
       child: ListView.separated(
@@ -69,7 +71,7 @@ class BookList extends StatelessWidget {
                       const SizedBox(width: md),
 
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () => delete(book),
                         icon: const Icon(Icons.delete_outline),
                         iconSize: 22,
                       ),

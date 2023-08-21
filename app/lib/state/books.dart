@@ -38,4 +38,11 @@ class BookNotifier extends StateNotifier<BookProvider> {
     arr.add(payload);
     state = AsyncValue.data(arr);
   }
+
+  void removeBook(Book payload) {
+    final arr = [...?state.value];
+    final index = arr.indexWhere((element) => element.isbn == payload.isbn);
+    arr.removeAt(index);
+    state = AsyncValue.data(arr);
+  }
 }
