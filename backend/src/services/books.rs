@@ -14,13 +14,13 @@ impl BookService {
     }
   }
   
-  pub async fn add_book(book: BookPartial) -> Result<(), String> {
+  pub async fn add_book(book: BookPartial) -> Result<Book, String> {
     let pool = start_db().await.map_err(|_| String::from("Failed to connect to database"))?;
   
     let new_book = Book::new(book);
   
     match Book::create(&new_book, &pool).await {
-      Ok(_) => Ok(()),
+      Ok(_) => Ok(new_book),
       Err(_) => Err(String::from("Could not add book"))
     }
   }

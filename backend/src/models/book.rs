@@ -70,7 +70,7 @@ impl Book {
       .bind(&book.isbn)
       .execute(pool)
       .await?;
-  
+
     Ok(())
   }
   

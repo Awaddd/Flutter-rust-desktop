@@ -37,13 +37,15 @@ async fn book(Path(title): Path<String>) -> impl IntoResponse {
 async fn add_book(payload: Json<BookPartial>) -> Result<Json<Value>> {
   println!("Adding {} {}", payload.title, payload.author);
 
-  let book = Book::new(BookPartial::new(payload));
-  
-  let body = Json(json!({
-    "data": {
-      "book": book
-    }
-  }));
+  if let Ok(book) = BookService::add_book(BookPartial::new(payload)).await {
+    let body = Json(json!({
+      "data": {
+        "book": book
+      }
+    }));
 
-  Ok(body)
+    Ok(body)
+  } else {
+    Err(Error::DefaultError)
+  }
 }
