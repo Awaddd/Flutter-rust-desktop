@@ -17,3 +17,13 @@ class Book {
     );
   }
 }
+
+class BookPartial {
+  BookPartial({
+    required this.title,
+    required this.author,
+  });
+
+  final String title;
+  final String author;
+}
