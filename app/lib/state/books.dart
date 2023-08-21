@@ -22,13 +22,6 @@ class BookNotifier extends StateNotifier<BookProvider> {
 
       final List<Book> books = [];
 
-      if (response.statusCode != 200) {
-        throw ClientException(
-          statusCode: response.statusCode,
-          response: response,
-        );
-      }
-
       final body = jsonDecode(response.body) as T;
       final bookList = (body?['data'] as T)?['books'] as List<dynamic>;
 
@@ -38,8 +31,6 @@ class BookNotifier extends StateNotifier<BookProvider> {
       }
 
       return books;
-      // api call
-      // return book array
     });
   }
 }

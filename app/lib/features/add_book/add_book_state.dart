@@ -31,13 +31,6 @@ class AddBookNotifier extends StateNotifier<AddBookState> {
 
     final response = await Client.post(Client.paths.postBook, payload.toJson());
 
-    if (response.statusCode != 200) {
-      throw ClientException(
-        statusCode: response.statusCode,
-        response: response,
-      );
-    }
-
     print("res ${response.body}");
     final body = jsonDecode(response.body) as T;
     final book = (body?['data'] as T)?['book'] as Map<String, dynamic>;

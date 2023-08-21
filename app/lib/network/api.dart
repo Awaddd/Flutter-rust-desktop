@@ -20,15 +20,33 @@ class Client<T> {
 
   static Future<http.Response> get(Request request) async {
     final url = Uri.parse("$api/${request.path}");
-    return http.get(url);
+    final response = await http.get(url);
+
+    if (response.statusCode != 200) {
+      throw ClientException(
+        statusCode: response.statusCode,
+        response: response,
+      );
+    }
+
+    return response;
   }
 
   static Future<http.Response> post(Request request, Map<String, dynamic> body) async {
-    return http.post(
+    final response = await http.post(
       Uri.parse("$api/${request.path}"),
       headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
       body: jsonEncode(body),
     );
+
+    if (response.statusCode != 200) {
+      throw ClientException(
+        statusCode: response.statusCode,
+        response: response,
+      );
+    }
+
+    return response;
   }
 }
 
