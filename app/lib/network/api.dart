@@ -66,6 +66,27 @@ class Client<T> {
 
     return response;
   }
+
+  static Future<GuardResponse> guard<T>(
+    Function() callback, {
+    String? clientExceptionMessage,
+    String? message,
+  }) async {
+    GuardResponse? result;
+
+    try {
+      final ok = await callback() as T;
+      result = (ok: ok, error: null);
+    } on ClientException {
+      final error = clientExceptionMessage ?? "There was a problem executing your request. Please try again later.";
+      result = (error: error, ok: null);
+    } on GenericException {
+      final err = message ?? "Sorry - something went wrong. Please try again later.";
+      result = (error: err, ok: null);
+    }
+
+    return result;
+  }
 }
 
 class Request {
@@ -108,4 +129,23 @@ class GenericException implements Exception {
 
   @override
   String toString() => error;
+}
+
+typedef GuardResponse<T> = ({
+  String? error,
+  T? ok,
+});
+
+class ErrorDetails {
+  ErrorDetails({
+    required this.item,
+    required this.action,
+    this.message,
+    this.clientExceptionMessage,
+  });
+
+  String? message;
+  String? clientExceptionMessage;
+  String item;
+  String action;
 }
