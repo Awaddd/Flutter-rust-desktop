@@ -8,4 +8,12 @@ class Book {
   final String title;
   final String author;
   final String isbn;
+
+  factory Book.fromNetwork(Map<String, dynamic> book) {
+    return Book(
+      title: book['title'] as String,
+      author: book['author'] as String,
+      isbn: book['isbn'] as String,
+    );
+  }
 }

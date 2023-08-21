@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rust/features/home/books.dart';
+import 'package:flutter_rust/utils/constants.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -7,6 +9,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        //
         Row(
           children: [
             Text(
@@ -15,6 +18,10 @@ class Home extends StatelessWidget {
             ),
           ],
         ),
+
+        const SizedBox(height: lg),
+
+        const Books(),
       ],
     );
   }
