@@ -2,40 +2,60 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rust/components/atoms/full_width_button.dart';
 import 'package:flutter_rust/components/atoms/full_width_input.dart';
+import 'package:flutter_rust/features/add_book/add_book_state.dart';
 import 'package:flutter_rust/utils/constants.dart';
-
-final bookControllerProvider = Provider((ref) => TextEditingController());
-final authorControllerProvider = Provider((ref) => TextEditingController());
+import 'package:flutter_rust/utils/utils.dart';
 
 class AddBookForm extends ConsumerWidget {
   const AddBookForm({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final formState = ref.watch(addBookProvider);
     final bookController = ref.watch(bookControllerProvider);
     final authorController = ref.watch(authorControllerProvider);
+
+    Future<void> addBook() async {
+      final book = bookController.text;
+      final author = authorController.text;
+
+      if (isEmpty(book)) return ref.read(addBookProvider.notifier).setBookError("Book cannot be empty");
+      if (isEmpty(author)) return ref.read(addBookProvider.notifier).setAuthorError("Author cannot be empty");
+
+      print("Saving... $book $author");
+    }
 
     return Column(
       children: [
         //
         FullWidthInput(
           text: 'Book',
-          controller: bookController,
           dense: true,
+          controller: bookController,
+          error: formState.bookError,
+          onChanged: (val) {
+            if (isEmpty(formState.bookError)) return;
+            ref.read(addBookProvider.notifier).setBookError(null);
+          },
         ),
 
         const SizedBox(height: md),
 
         FullWidthInput(
           text: 'Author',
-          controller: authorController,
           dense: true,
+          controller: authorController,
+          error: formState.authorError,
+          onChanged: (val) {
+            if (isEmpty(formState.authorError)) return;
+            ref.read(addBookProvider.notifier).setAuthorError(null);
+          },
         ),
 
         const SizedBox(height: md),
 
         FullWidthButton(
-          onPressed: () {},
+          onPressed: addBook,
           text: 'Add Book',
         ),
       ],
