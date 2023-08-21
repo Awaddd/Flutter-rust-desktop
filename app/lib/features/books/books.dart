@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rust/features/books/all_books.dart';
 import 'package:flutter_rust/utils/constants.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class Books extends StatelessWidget {
+  const Books({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class Home extends StatelessWidget {
         Row(
           children: [
             Text(
-              "Sahib",
+              "Bookio",
               style: text.headlineLarge?.copyWith(fontWeight: FontWeight.w800),
             ),
           ],
@@ -27,13 +28,13 @@ class Home extends StatelessWidget {
         Row(
           children: [
             Text(
-              "Your companian app",
+              "List of all books",
               style: text.labelLarge?.copyWith(fontWeight: FontWeight.w500, color: color),
             ),
           ],
         ),
 
-        const SizedBox(height: lg),
+        const AllBooks(),
       ],
     );
   }

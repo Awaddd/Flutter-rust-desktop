@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rust/features/add_book/add_book.dart';
+import 'package:flutter_rust/features/books/books.dart';
 import 'package:flutter_rust/features/home/home.dart';
 import 'package:flutter_rust/features/settings/settings.dart';
 import 'package:flutter_rust/layouts/main_layout.dart';
@@ -30,6 +31,16 @@ final goRouterProvider = Provider((ref) {
         pageBuilder: (BuildContext context, GoRouterState state) {
           return const NoTransitionPage(
             child: MainLayout(child: Settings()),
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: rootNavigatorKey,
+        name: Routes.books.name,
+        path: Routes.books.path,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return const NoTransitionPage(
+            child: MainLayout(child: Books()),
           );
         },
       ),

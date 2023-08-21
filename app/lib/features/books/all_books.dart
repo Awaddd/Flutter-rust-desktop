@@ -6,8 +6,8 @@ import 'package:flutter_rust/utils/constants.dart';
 import 'package:flutter_rust/utils/extensions.dart';
 import 'package:flutter_rust/utils/utils.dart';
 
-class Books extends ConsumerWidget {
-  const Books({super.key});
+class AllBooks extends ConsumerWidget {
+  const AllBooks({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,7 +22,7 @@ class Books extends ConsumerWidget {
         'Error! Something went wrong',
         style: text.titleMedium?.copyWith(color: colors.error),
       ),
-      loading: () => const Center(child: LinearProgressIndicator()),
+      loading: () => const Expanded(child: Center(child: CircularProgressIndicator())),
     );
   }
 }
