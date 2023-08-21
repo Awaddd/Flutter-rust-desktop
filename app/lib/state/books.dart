@@ -22,14 +22,19 @@ class BookNotifier extends StateNotifier<BookProvider> {
 
       final List<Book> books = [];
 
-      if (response.statusCode == 200) {
-        final body = jsonDecode(response.body) as T;
-        final bookList = (body?['data'] as T)?['books'] as List<dynamic>;
+      if (response.statusCode != 200) {
+        throw ClientException(
+          statusCode: response.statusCode,
+          response: response,
+        );
+      }
 
-        for (final (book as Map<String, dynamic>) in bookList) {
-          final b = Book.fromNetwork(book);
-          books.add(b);
-        }
+      final body = jsonDecode(response.body) as T;
+      final bookList = (body?['data'] as T)?['books'] as List<dynamic>;
+
+      for (final (book as Map<String, dynamic>) in bookList) {
+        final b = Book.fromNetwork(book);
+        books.add(b);
       }
 
       return books;
