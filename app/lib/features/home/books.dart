@@ -50,7 +50,34 @@ class BookList extends StatelessWidget {
             contentPadding: const EdgeInsets.only(right: xl),
             title: Text(book.title, style: text.bodyMedium?.copyWith(color: colors.primary, fontWeight: FontWeight.w600)),
             subtitle: Text(book.author, style: text.bodySmall?.copyWith(color: subtitleColor)),
-            trailing: Text(book.isbn, style: TextStyle(color: colors.secondary)),
+            trailing: LayoutBuilder(
+              builder: (context, constraints) {
+                return SizedBox(
+                  width: constraints.maxWidth / 2.5,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      //
+                      Flexible(
+                        child: Text(
+                          book.isbn,
+                          style: TextStyle(color: colors.secondary),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+
+                      const SizedBox(width: md),
+
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.delete_outline),
+                        iconSize: 22,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           );
         },
       ),
