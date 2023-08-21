@@ -18,7 +18,7 @@ class Books extends ConsumerWidget {
       data: (b) => BookList(books: b),
       error: (error, stackTrace) => Text(
         'Error! Something went wrong',
-        style: text.titleLarge?.copyWith(color: colors.error),
+        style: text.titleMedium?.copyWith(color: colors.error),
       ),
       loading: () => const Center(child: LinearProgressIndicator()),
     );
@@ -36,18 +36,20 @@ class BookList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final subtitleColor = Theme.of(context).hintColor;
+    final text = Theme.of(context).textTheme;
 
     return Expanded(
       child: ListView.separated(
         itemCount: books.length,
-        separatorBuilder: (context, index) => const SizedBox(height: 0),
+        separatorBuilder: (context, index) => const SizedBox(height: 5),
         itemBuilder: (context, index) {
           final book = books[index];
 
           return ListTile(
             contentPadding: const EdgeInsets.only(right: xl),
-            title: Text(book.title, style: TextStyle(color: colors.primary)),
-            subtitle: Text(book.author, style: TextStyle(color: Theme.of(context).hintColor)),
+            title: Text(book.title, style: text.bodyMedium?.copyWith(color: colors.primary, fontWeight: FontWeight.w600)),
+            subtitle: Text(book.author, style: text.bodySmall?.copyWith(color: subtitleColor)),
             trailing: Text(book.isbn, style: TextStyle(color: colors.secondary)),
           );
         },

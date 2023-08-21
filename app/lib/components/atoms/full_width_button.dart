@@ -5,14 +5,14 @@ class FullWidthButton extends StatelessWidget {
   const FullWidthButton({
     super.key,
     required this.text,
-    required this.callback,
+    required this.onPressed,
     this.isDisabled = false,
     this.color,
     this.icon,
   });
 
   final String text;
-  final void Function() callback;
+  final void Function() onPressed;
   final bool isDisabled;
   final Color? color;
   final Icon? icon;
@@ -21,7 +21,7 @@ class FullWidthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     if (icon != null) {
       return FilledButton.icon(
-        onPressed: isDisabled ? null : callback,
+        onPressed: isDisabled ? null : onPressed,
         icon: icon!,
         label: Text(text),
         style: FilledButton.styleFrom(
@@ -35,7 +35,7 @@ class FullWidthButton extends StatelessWidget {
     }
 
     return FilledButton(
-      onPressed: isDisabled ? null : callback,
+      onPressed: isDisabled ? null : onPressed,
       style: FilledButton.styleFrom(
         backgroundColor: color,
         minimumSize: const Size.fromHeight(50),

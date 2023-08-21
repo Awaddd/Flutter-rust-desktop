@@ -28,13 +28,14 @@ class Destination extends ExampleDestination {
 
 List<ExampleDestination> destinations = [
   Destination(Routes.home.name.capitalize(), const Icon(Icons.cottage_outlined), const Icon(Icons.cottage), path: Routes.home.path),
-  Destination(Routes.settings.name.capitalize(), const Icon(Icons.settings_outlined), const Icon(Icons.settings), path: Routes.settings.path),
-  const ExampleDestination(
-    'Favorites',
-    Icon(Icons.favorite_outline),
-    Icon(Icons.favorite),
+  Destination(
+    'Add Book',
+    const Icon(Icons.add_outlined),
+    const Icon(Icons.add),
+    path: Routes.addBook.path,
   ),
   const ExampleDestination('Trash', Icon(Icons.delete_outline), Icon(Icons.delete)),
+  Destination(Routes.settings.name.capitalize(), const Icon(Icons.settings_outlined), const Icon(Icons.settings), path: Routes.settings.path),
 ];
 
 const List<ExampleDestination> labelDestinations = <ExampleDestination>[
