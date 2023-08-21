@@ -1,4 +1,4 @@
-use crate::models::book::BookPartial;
+use crate::models::book::{Book, BookPartial};
 use crate::{Error, Result};
 use crate::services::books::BookService;
 use axum::routing::post;
@@ -37,9 +37,11 @@ async fn book(Path(title): Path<String>) -> impl IntoResponse {
 async fn add_book(payload: Json<BookPartial>) -> Result<Json<Value>> {
   println!("Adding {} {}", payload.title, payload.author);
 
+  let book = Book::new(BookPartial::new(payload));
+  
   let body = Json(json!({
-    "result": {
-      "success": true
+    "data": {
+      "book": book
     }
   }));
 

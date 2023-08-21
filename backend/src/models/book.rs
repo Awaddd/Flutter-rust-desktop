@@ -1,4 +1,5 @@
 use std::error::Error;
+use axum::Json;
 use sqlx::Row;
 use serde::{Serialize, Deserialize};
 use uuid::Uuid;
@@ -84,5 +85,14 @@ impl Book {
       .await?;
   
     Ok(())
+  }
+}
+
+impl BookPartial {
+  pub fn new(book: Json<BookPartial>) -> BookPartial {
+    BookPartial {
+      title: book.title.to_string(),
+      author: book.author.to_string(),
+    }
   }
 }
