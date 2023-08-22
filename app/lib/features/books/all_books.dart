@@ -22,7 +22,14 @@ class AllBooks extends ConsumerWidget {
         'Error! Something went wrong',
         style: text.titleMedium?.copyWith(color: colors.error),
       ),
-      loading: () => const Expanded(child: Center(child: CircularProgressIndicator())),
+      loading: () => const Expanded(
+        child: Column(
+          children: [
+            Spacer(),
+            LinearProgressIndicator(),
+          ],
+        ),
+      ),
     );
   }
 }
